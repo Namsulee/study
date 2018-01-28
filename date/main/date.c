@@ -11,155 +11,185 @@
 
 Date Today(Date *this)
 {
-    Date date = {0,};
+    time_t timer;
+    struct tm *today;
     
-    if (this != NULL) {
-        date.year = this->year + 1900;
-        date.day = this->day;
-        date.month = this->month+1;
-        date.weekday = this->weekday;
-    }
+    Date _today = {0,};
+    Create(&_today);
+    time(&timer);
     
-    return date;
+    today = localtime(&timer);
+    
+    _today.year = today->tm_year + 1900;
+    _today.day = today->tm_mday;
+    _today.month = today->tm_mon + 1;
+    _today.weekday = today->tm_wday;
+    
+    Destroy(&_today);
+    return _today;
 }
 
 Date YesterDay(Date *this)
 {
-    Date date = {0,};
+    struct tm time = {0,};
+    Date _yesterday = {0,};
     
-    if (this != NULL) {
-        date.year = this->year + 1900;
-        date.day = this->day-1;
-        date.month = this->month+1;
-        date.weekday = this->weekday;
-    }
+    Create(&_yesterday);
+    time.tm_year = this->year - 1900;
+    time.tm_mon = this->month - 1;
+    time.tm_mday = this->day - 1;
     
-    return date;
+    mktime(&time);
+    
+    _yesterday.year = time.tm_year + 1900;
+    _yesterday.day = time.tm_mday;
+    _yesterday.month = time.tm_mon + 1;
+    _yesterday.weekday = time.tm_wday;
+    
+    Destroy(&_yesterday);
+    return _yesterday;
 }
 
 Date Tomorrow(Date *this)
 {
-    Date date = {0,};
+    struct tm time = {0,};
+    Date _tomorrow = {0,};
     
-    if (this != NULL) {
-        date.year = this->year + 1900;
-        date.day = this->day+1;
-        date.month = this->month+1;
-        date.weekday = this->weekday;
-    }
+    Create(&_tomorrow);
+    time.tm_year = this->year - 1900;
+    time.tm_mon = this->month - 1;
+    time.tm_mday = this->day + 1;
     
-    return date;
+    mktime(&time);
+    
+    _tomorrow.year = time.tm_year + 1900;
+    _tomorrow.day = time.tm_mday;
+    _tomorrow.month = time.tm_mon + 1;
+    _tomorrow.weekday = time.tm_wday;
+    
+    Destroy(&_tomorrow);
+    return _tomorrow;
 }
 
-Date PrevDate(Date *this, Date *other)
+Date PrevDate(Date *this, UShort day)
 {
-    Date date = {0,};
+    struct tm time = {0,};
+    Date _prevDate = {0,};
     
-    if (this != NULL) {
-        date.year = this->year + 1900;
-        date.day = this->day+1;
-        date.month = this->month+1;
-        date.weekday = this->weekday;
-    }
-    return date;
+    Create(&_prevDate);
+    time.tm_year = this->year - 1900;
+    time.tm_mon = this->month - 1;
+    time.tm_mday = this->day - day;
+    
+    mktime(&time);
+    
+    _prevDate.year = time.tm_year + 1900;
+    _prevDate.day = time.tm_mday;
+    _prevDate.month = time.tm_mon+1;
+    _prevDate.weekday = time.tm_wday;
+    
+    Destroy(&_prevDate);
+    return _prevDate;
 }
 
-Date NextDate(Date *this, Date *other)
+Date NextDate(Date *this, UShort day)
 {
-    Date date = {0,};
+    struct tm time = {0,};
+    Date _nextDate = {0,};
     
-    if (this != NULL) {
-        date.year = this->year + 1900;
-        date.day = this->day+1;
-        date.month = this->month+1;
-        date.weekday = this->weekday;
-    }
+    Create(&_nextDate);
+    time.tm_year = this->year - 1900;
+    time.tm_mon = this->month - 1;
+    time.tm_mday = this->day + day;
     
-    return date;
+    mktime(&time);
+    
+    _nextDate.year = time.tm_year + 1900;
+    _nextDate.day = time.tm_mday;
+    _nextDate.month = time.tm_mon  + 1;
+    _nextDate.weekday = time.tm_wday;
+    
+    Destroy(&_nextDate);
+    return _nextDate;
 }
 
-boolean isEqual(Date *this, Date * other)
+boolean IsEqual(Date *this, Date * other)
 {
     return FALSE;
 }
-boolean isNotEqual(Date *this, Date * other)
+boolean IsNotEqual(Date *this, Date * other)
 {
      return FALSE;
 }
-boolean isGreaterThan(Date *this, Date * other)
+boolean IsGreaterThan(Date *this, Date * other)
 {
      return FALSE;
 }
-boolean isLesserThan(Date *this, Date * other)
+boolean IsLesserThan(Date *this, Date * other)
 {
      return FALSE;
 }
 
-int getYear(Date *this)
+int GetYear(Date *this)
 {
     return this->year;
 }
-int getMonth(Date *this)
+int GetMonth(Date *this)
 {
     return this->month;
 }
-int getDay(Date *this)
+int GetDay(Date *this)
 {
     return this->day;
 }
-int getWeekday(Date *this)
+int GetWeekday(Date *this)
 {
     return this->weekday;
 }
-void setYear(Date *this, int year)
+void SetYear(Date *this, int year)
 {
     this->year = year;
 }
-void setMonth(Date *this , int month)
+void SetMonth(Date *this , int month)
 {
     this->month = month;
 }
-void setDay(Date *this, int day)
+void SetDay(Date *this, int day)
 {
     this->day = day;
 }
-void setWeekday(Date *this, int weekday)
+void SetWeekday(Date *this, int weekday)
 {
     this->weekday = weekday;
 }
-void CreateDate(Date *this)
+void Create(Date *this)
 {
-    struct tm *t = NULL;
-    time_t timer;
-    timer = time(NULL);
-    t = localtime(&timer);
-    
-    this->year = t->tm_year;
-    this->month = t->tm_mon;
-    this->day = t->tm_mday;
-    this->weekday = t->tm_wday;
+    this->year = 1900;
+    this->month = 1;
+    this->day = 1;
+    this->weekday = 1;
     
     this->Today = Today;
     this->Tomorrow = Tomorrow;
     this->YesterDay = YesterDay;
     this->PrevDate = PrevDate;
     this->NextDate = NextDate;
-    this->isEqual = isEqual;
-    this->isNotEqual = isNotEqual;
-    this->isGreaterThan = isGreaterThan;
-    this->isLesserThan = isLesserThan;
+    this->IsEqual = IsEqual;
+    this->IsNotEqual = IsNotEqual;
+    this->IsGreaterThan = IsGreaterThan;
+    this->IsLesserThan = IsLesserThan;
     
-    this->setYear = setYear;
-    this->setMonth = setMonth;
-    this->setDay = setDay;
-    this->setWeekday = setWeekday;
-    this->getYear = getYear;
-    this->getMonth = getMonth;
-    this->getDay = getDay;
-    this->getWeekday = getWeekday;
+    this->SetYear = SetYear;
+    this->SetMonth = SetMonth;
+    this->SetDay = SetDay;
+    this->SetWeekday = SetWeekday;
+    this->GetYear = GetYear;
+    this->GetMonth = GetMonth;
+    this->GetDay = GetDay;
+    this->GetWeekday = GetWeekday;
 }
 
-void DestroyDate(Date *this)
+void Destroy(Date *this)
 {
-    return;
+    ;
 }

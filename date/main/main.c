@@ -14,19 +14,34 @@ int main(int argc, const char * argv[]) {
     // insert code here...
     printf("Date console!\n");
     
-    Date date = {0,};
+    Date date;
+    Date today;
+    Date yesterDay;
+    Date tomorrow;
+    Date prevDate;
+    Date nextDate;
     
-    CreateDate(&date);
-    printf("Year[%d]\nMonth[%d]\nDay[%d]\nWeek[%d]\n", date.year, date.month, date.day, date.weekday);
-    Date today = date.Today(&date);
-    printf("Today : Year[%d]\nMonth[%d]\nDay[%d]\nWeek[%d]\n", today.year, today.month, today.day, today.weekday);
-    Date tomorrow = date.Tomorrow(&date);
-    printf("tomorrow : Year[%d]\nMonth[%d]\nDay[%d]\nWeek[%d]\n", tomorrow.year, tomorrow.month, tomorrow.day, tomorrow.weekday);
-    Date yesterday = date.YesterDay(&date);
-    printf("yesterday : Year[%d]\nMonth[%d]\nDay[%d]\nWeek[%d]\n", yesterday.year, yesterday.month, yesterday.day, yesterday.weekday);
-    //Date prev = date.PrevDate(&date, &tomorrow);
-    //Date next = date.NextDate(&date, &tomorrow);
+    Create(&date);
+    Create(&today);
+    Create(&yesterDay);
+    Create(&tomorrow);
+    Create(&prevDate);
+    Create(&nextDate);
     
-    DestroyDate(&date);
+    // Today
+    today = date.Today(&date);
+    printf("%4d-%02d-%02d\n", today.year, today.month, today.day);
+    
+    // YesterDay
+    yesterDay = today.YesterDay(&today);
+    printf("%4d-%02d-%02d\n", yesterDay.year, yesterDay.month, yesterDay.day);
+    
+    Destroy(&date);
+    Destroy(&today);
+    Destroy(&yesterDay);
+    Destroy(&tomorrow);
+    Destroy(&prevDate);
+    Destroy(&nextDate);
+    
     return 0;
 }

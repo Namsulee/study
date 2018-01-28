@@ -9,9 +9,9 @@
 #ifndef date_h
 #define date_h
 
-#include <stdio.h>
+typedef unsigned int UShort;
 
-typedef enum boolean {
+typedef enum {
     FALSE = 0,
     TRUE = 1
 } boolean;
@@ -24,47 +24,47 @@ typedef struct _date {
     int day;
     int weekday;
     
-    int (*getYear)(Date*);
-    int (*getMonth)(Date*);
-    int (*getDay)(Date*);
-    int (*getWeekday)(Date*);
+    int (*GetYear)(Date*);
+    int (*GetMonth)(Date*);
+    int (*GetDay)(Date*);
+    int (*GetWeekday)(Date*);
     
-    void (*setYear)(Date*, int year);
-    void (*setMonth)(Date*, int month);
-    void (*setDay)(Date*, int day);
-    void (*setWeekday)(Date*, int weekday);
+    void (*SetYear)(Date*, int year);
+    void (*SetMonth)(Date*, int month);
+    void (*SetDay)(Date*, int day);
+    void (*SetWeekday)(Date*, int weekday);
     
     Date (*Today)(Date*);
     Date (*YesterDay)(Date*);
     Date (*Tomorrow)(Date*);
-    Date (*PrevDate)(Date*, Date*);
-    Date (*NextDate)(Date*, Date*);
-    boolean (*isEqual)(Date*, Date*);
-    boolean (*isNotEqual)(Date*, Date*);
-    boolean (*isGreaterThan)(Date*, Date*);
-    boolean (*isLesserThan)(Date*, Date*);
+    Date (*PrevDate)(Date*, UShort);
+    Date (*NextDate)(Date*, UShort);
+    boolean (*IsEqual)(Date*, Date*);
+    boolean (*IsNotEqual)(Date*, Date*);
+    boolean (*IsGreaterThan)(Date*, Date*);
+    boolean (*IsLesserThan)(Date*, Date*);
 } Date;
 
-void CreateDate(Date *this);
-void DestroyDate(Date *this);
-int getYear(Date *this);
-int getMonth(Date *this);
-int getDay(Date *this);
-int getWeekday(Date *this);
+void Create(Date *this);
+void Destroy(Date *this);
+int GetYear(Date *this);
+int GetMonth(Date *this);
+int GetDay(Date *this);
+int GetWeekday(Date *this);
 
-void setYear(Date *this, int year);
-void setMonth(Date *this , int month);
-void setDay(Date *this, int day);
-void setWeekday(Date *this, int weekday);
+void SetYear(Date *this, int year);
+void SetMonth(Date *this , int month);
+void SetDay(Date *this, int day);
+void SetWeekday(Date *this, int weekday);
 
 Date Today(Date *this);
 Date YesterDay(Date *this);
 Date Tomorrow(Date *this);
-Date PrevDate(Date *this, Date * date);
-Date NextDate(Date *this, Date * date);
-boolean isEqual(Date *this, Date * other);
-boolean isNotEqual(Date *this, Date * other);
-boolean isGreaterThan(Date *this, Date * other);
-boolean isLesserThan(Date *this, Date * other);
+Date PrevDate(Date *this, UShort day);
+Date NextDate(Date *this, UShort day);
+boolean IsEqual(Date *this, Date *other);
+boolean IsNotEqual(Date *this, Date *other);
+boolean IsGreaterThan(Date *this, Date *other);
+boolean IsLesserThan(Date *this, Date *other);
 
 #endif /* date_h */

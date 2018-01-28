@@ -10,12 +10,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "date.c"
-            timestampString = "538586410.941142"
+            timestampString = "538732163.9471329"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "28"
-            endingLineNumber = "28"
-            landmarkName = "YesterDay"
+            startingLineNumber = "33"
+            endingLineNumber = "33"
+            landmarkName = "Today"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
