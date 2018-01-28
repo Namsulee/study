@@ -85,7 +85,7 @@ Date PrevDate(Date *this, UShort day)
     
     _prevDate.year = time.tm_year + 1900;
     _prevDate.day = time.tm_mday;
-    _prevDate.month = time.tm_mon+1;
+    _prevDate.month = time.tm_mon + 1;
     _prevDate.weekday = time.tm_wday;
     
     Destroy(&_prevDate);
@@ -113,21 +113,46 @@ Date NextDate(Date *this, UShort day)
     return _nextDate;
 }
 
-boolean IsEqual(Date *this, Date * other)
+boolean IsEqual(Date *this, Date *other)
 {
+    if (this->year == other->year && (this->month == other->month && this->day == other->day)) {
+        return TRUE;
+    }
     return FALSE;
 }
-boolean IsNotEqual(Date *this, Date * other)
+boolean IsNotEqual(Date *this, Date *other)
 {
-     return FALSE;
+    if (this->year != other->year || (this->month != other->month || this->day != other->day)) {
+        return TRUE;
+    }
+    return FALSE;
 }
-boolean IsGreaterThan(Date *this, Date * other)
+boolean IsGreaterThan(Date *this, Date *other)
 {
-     return FALSE;
+    if (this->year > other->year) {
+        return TRUE;
+    }
+    
+    if (this->month > other->month) {
+        return TRUE;
+    } else if (this->day > other->day) {
+        return TRUE;
+    }
+
+    return FALSE;
 }
-boolean IsLesserThan(Date *this, Date * other)
+boolean IsLesserThan(Date *this, Date *other)
 {
-     return FALSE;
+    if (this->year < other->year) {
+        return TRUE;
+    }
+    if (this->month < other->month) {
+        return TRUE;
+    } else if (this->day < other->day) {
+        return TRUE;
+    }
+    
+    return FALSE;
 }
 
 int GetYear(Date *this)
