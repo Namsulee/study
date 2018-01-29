@@ -11,28 +11,74 @@
 
 typedef unsigned int UShort;
 
-typedef enum {
-    FALSE = 0,
-    TRUE = 1
-} boolean;
-
-
 class Date
 {
 public:
-    int year, month, day, week;
-    
     Date();
     ~Date();
-    Date Today();
+    Date(int year, int month, int day);
+    Date(char(*date));
+    Date(const Date& source);
+    static Date Today();
+    operator char*();
+    
     Date YesterDay();
+    Date& operator--();
+    Date operator--(int);
+    
     Date Tomorrow();
-    Date PrevDate(UShort day);
+    Date& operator++();
+    Date operator++(int);
+    
+    Date PreviousDate(UShort day);
+    Date operator-(UShort day);
+    
     Date NextDate(UShort day);
+    Date operator+(UShort day);
     
-    boolean IsEqual(Date *date, Date *other);
+    bool IsEquals(const Date& other);
+    bool operator==(const Date& other);
     
+    bool IsNotEquals(const Date& other);
+    bool operator!=(const Date& other);
+    
+    bool IsGreaterThan(const Date& other);
+    bool operator>(const Date& other);
+    bool operator>=(const Date& other);
+    
+    bool IsLesserThan(const Date& other);
+    bool operator<(const Date& other);
+    bool operator<=(const Date& other);
+    
+    Date& operator=(const Date& source);
+    
+    int GetYear() const;
+    int GetMonth() const;
+    int GetDay() const;
+    int GetWeekDay() const;
+
+private:
+    int year;
+    int month;
+    int day;
+    int weekday;
 };
 
+// attribute들에 대해서 inline함수들로 구현한다.
+inline int Date::GetYear() const {
+    return this->year;
+}
+
+inline int Date::GetMonth() const {
+    return this->month;
+}
+
+inline int Date::GetDay() const {
+    return this->day;
+}
+
+inline int Date::GetWeekDay() const {
+    return this->weekDay;
+}
 
 #endif /* date_hpp */

@@ -7,13 +7,14 @@
 //
 
 #include "date.hpp"
+#include <ctime>
+#include <iostream>
+
+using namespace std;
 
 Date::Date()
 {
-    year = 1900;
-    month = 1;
-    day = 1;
-    week = 1;
+
 }
 
 Date::~Date()
@@ -21,16 +22,107 @@ Date::~Date()
     
 }
 
-Date::Today()
-{
-    date = new Date();
+Date::Date(int year, int month, int day) {
     
-    date.year = 1900;
-    date.month = 1;
-    date.day = 1;
-    date.week = 1;
+}
+
+Date::Date(char(*date)) {
     
-    return date;
+}
+
+Date::Date(const Date& source) {
+    
+}
+
+Date Date::Today() {
+    
+}
+
+Date::operator char*() {
+    
+}
+
+Date Date::YesterDay() {
+    
+}
+
+Date& Date::operator--() {
+    
+}
+
+Date Date::operator--(int) {
+    
+}
+
+Date Date::Tomorrow() {
+    
+}
+
+Date& Date::operator++() {
+    
+}
+
+Date Date::operator++(int) {
+    
+}
+
+Date Date::PreviousDate(UShort days) {
+    
+}
+
+Date Date::operator-(UShort days) {
+    
+}
+
+Date Date::NextDate(UShort days) {
+    
+}
+
+Date Date::operator+(UShort days) {
+    
+}
+
+bool Date::IsEquals(const Date& other) {
+    
+}
+
+bool Date::operator==(const Date& other) {
+    
 }
 
 
+bool Date::IsNotEquals(const Date& other) {
+    
+}
+
+bool Date::operator!=(const Date& other) {
+    
+}
+
+bool Date::IsGreaterThan(const Date& other) {
+    
+}
+
+bool Date::operator>(const Date& other) {
+    
+}
+
+bool Date::operator>=(const Date& other) {
+    
+}
+
+bool Date::IsLesserThan(const Date& other) {
+    
+}
+
+bool Date::operator<(const Date& other) {
+    
+}
+
+bool Date::operator<=(const Date& other) {
+    
+}
+
+Date& Date::operator=(const Date& source) {
+    
+}
