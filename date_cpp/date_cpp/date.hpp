@@ -25,7 +25,7 @@ public:
     Date YesterDay();
     Date& operator--();
     Date operator--(int);
-    /*
+    
     Date Tomorrow();
     Date& operator++();
     Date operator++(int);
@@ -51,7 +51,7 @@ public:
     bool operator<=(const Date& other);
     
     Date& operator=(const Date& source);
-    */
+    
     int GetYear() const;
     int GetMonth() const;
     int GetDay() const;

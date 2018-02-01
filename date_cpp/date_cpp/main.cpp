@@ -15,6 +15,7 @@ int main(int argc, const char * argv[]) {
     std::cout << "Hello, World!\n";
     string str;
     
+    // today
     Date today;
     today = Date::Today();
     cout << "date is " << static_cast<char *>(today) << endl;
