@@ -11,6 +11,16 @@
 
 typedef unsigned int UShort;
 
+typedef enum {
+    SUN = 0,
+    MON = 1,
+    TUE = 2,
+    WED = 3,
+    THU = 4,
+    FRI = 5,
+    SAT = 6
+} WeekDay;
+
 class Date
 {
 public:
@@ -55,13 +65,13 @@ public:
     int GetYear() const;
     int GetMonth() const;
     int GetDay() const;
-    int GetWeekDay() const;
+    WeekDay GetWeekDay() const;
 
 private:
     int year;
     int month;
     int day;
-    int weekday;
+    WeekDay weekday;
 };
 
 // attribute들에 대해서 inline함수들로 구현한다.
@@ -77,7 +87,7 @@ inline int Date::GetDay() const {
     return this->day;
 }
 
-inline int Date::GetWeekDay() const {
+inline WeekDay Date::GetWeekDay() const {
     return this->weekday;
 }
 

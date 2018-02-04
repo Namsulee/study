@@ -15,7 +15,7 @@ Date::Date() {
     this->year = 1900;
     this->month = 1;
     this->day = 1;
-    this->weekday = 1;
+    this->weekday = MON;
 }
 
 Date::~Date() {
@@ -31,7 +31,7 @@ Date::Date(int year, int month, int day) {
     this->year = date.tm_year + 1900;
     this->month = date.tm_mon + 1;
     this->day = date.tm_mday;
-    this->weekday = date.tm_wday;
+    this->weekday = static_cast<WeekDay>(date.tm_wday);
 }
 
 Date::Date(char(*date)) {
@@ -43,7 +43,7 @@ Date::Date(char(*date)) {
     this->year = temp.tm_year + 1900;
     this->month = temp.tm_mon + 1;
     this->day = temp.tm_mday;
-    this->weekday = temp.tm_wday;
+    this->weekday = static_cast<WeekDay>(temp.tm_wday);
 }
 
 Date::Date(const Date& source) {
@@ -62,7 +62,7 @@ Date Date::Today() {
     _today.year = today->tm_year + 1900;
     _today.month = today->tm_mon + 1;
     _today.day = today->tm_mday;
-    _today.weekday = today->tm_wday;
+    _today.weekday = static_cast<WeekDay>(today->tm_wday);
     
     return _today;
 }
@@ -84,7 +84,7 @@ Date Date::YesterDay() {
     _date.year = date.tm_year + 1900;
     _date.month = date.tm_mon + 1;
     _date.day = date.tm_mday;
-    _date.weekday = date.tm_wday;
+    _date.weekday = static_cast<WeekDay>(date.tm_wday);
     
     return _date;
 }
@@ -100,7 +100,7 @@ Date& Date::operator--() {
     this->year = date.tm_year + 1900;
     this->month = date.tm_mon + 1;
     this->day = date.tm_mday;
-    this->weekday = date.tm_wday;
+    this->weekday = static_cast<WeekDay>(date.tm_wday);
 
     return *this;
 }
@@ -108,14 +108,14 @@ Date& Date::operator--() {
 Date Date::operator--(int) {
     struct tm date = {0,};
     Date temp(*this);
-    date.tm_year = this->year - 1900;
-    date.tm_mon = this->month - 1;
-    date.tm_mday = this->day - 1;
+    date.tm_year = temp.year - 1900;
+    date.tm_mon = temp.month - 1;
+    date.tm_mday = temp.day - 1;
     mktime(&date);
     temp.year = date.tm_year + 1900;
     temp.month = date.tm_mon + 1;
     temp.day = date.tm_mday;
-    temp.weekday = date.tm_wday;
+    temp.weekday = static_cast<WeekDay>(date.tm_wday);
     
     return temp;
 }
@@ -123,7 +123,6 @@ Date Date::operator--(int) {
 Date Date::Tomorrow() {
     struct tm date = {0,};
     Date _date;
-    
     date.tm_year = this->year - 1900;
     date.tm_mon = this->month - 1;
     date.tm_mday = this->day + 1;
@@ -131,7 +130,7 @@ Date Date::Tomorrow() {
     _date.year = date.tm_year + 1900;
     _date.month = date.tm_mon + 1;
     _date.day = date.tm_mday;
-    _date.weekday = date.tm_wday;
+    _date.weekday = static_cast<WeekDay>(date.tm_wday);
     
     return _date;
 }
@@ -147,7 +146,7 @@ Date& Date::operator++() {
     this->year = date.tm_year + 1900;
     this->month = date.tm_mon + 1;
     this->day = date.tm_mday;
-    this->weekday = date.tm_wday;
+    this->weekday = static_cast<WeekDay>(date.tm_wday);
     
     return *this;
 }
@@ -155,14 +154,14 @@ Date& Date::operator++() {
 Date Date::operator++(int) {
     struct tm date = {0,};
     Date temp(*this);
-    date.tm_year = this->year - 1900;
-    date.tm_mon = this->month - 1;
-    date.tm_mday = this->day + 1;
+    date.tm_year = temp.year - 1900;
+    date.tm_mon = temp.month - 1;
+    date.tm_mday = temp.day + 1;
     mktime(&date);
     temp.year = date.tm_year + 1900;
     temp.month = date.tm_mon + 1;
     temp.day = date.tm_mday;
-    temp.weekday = date.tm_wday;
+    temp.weekday = static_cast<WeekDay>(date.tm_wday);
     
     return temp;
 }
@@ -178,7 +177,7 @@ Date Date::PreviousDate(UShort days) {
     _date.year = date.tm_year + 1900;
     _date.month = date.tm_mon + 1;
     _date.day = date.tm_mday;
-    _date.weekday = date.tm_wday;
+    _date.weekday = static_cast<WeekDay>(date.tm_wday);
     
     return _date;
 }
@@ -194,7 +193,7 @@ Date Date::operator-(UShort days) {
     this->year = date.tm_year + 1900;
     this->month = date.tm_mon + 1;
     this->day = date.tm_mday;
-    this->weekday = date.tm_wday;
+    this->weekday = static_cast<WeekDay>(date.tm_wday);
     
     return *this;
 }
@@ -205,12 +204,12 @@ Date Date::NextDate(UShort days) {
     
     date.tm_year = this->year - 1900;
     date.tm_mon = this->month - 1;
-    date.tm_mday = this->day + 1;
+    date.tm_mday = this->day + days;
     mktime(&date);
     _date.year = date.tm_year + 1900;
     _date.month = date.tm_mon + 1;
     _date.day = date.tm_mday;
-    _date.weekday = date.tm_wday;
+    _date.weekday = static_cast<WeekDay>(date.tm_wday);
     
     return _date;
 }
@@ -226,7 +225,7 @@ Date Date::operator+(UShort days) {
     this->year = date.tm_year + 1900;
     this->month = date.tm_mon + 1;
     this->day = date.tm_mday;
-    this->weekday = date.tm_wday;
+    this->weekday = static_cast<WeekDay>(date.tm_wday);
     
     return *this;
 }
