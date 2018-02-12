@@ -10,9 +10,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-ArrayList::ArrayList(int listSize, int size)
+ArrayList::ArrayList(int listSize)
 {
-    front = (ArrayData *) calloc(listSize, size);
+    front = (ArrayData *) calloc(listSize, sizeof(ArrayData));
     capacity = listSize;
     current = 0;
 }
@@ -31,13 +31,13 @@ ArrayList::ArrayList(const ArrayList& source)
     }
 }
 
-int ArrayList::Store(ArrayData *data, int index, int size)
+int ArrayList::Store(int index, ArrayData *data)
 {
-    memcpy(((ArrayData*)(this->front)) + (index * size), data, size);
+    memcpy(((ArrayData*)(this->front)) + (index * sizeof(ArrayData)), data, sizeof(ArrayData));
     return index;
 }
 
-int ArrayList::Insert(ArrayData *data, int index, int size)
+int ArrayList::Insert(int index, ArrayData *data)
 {
     ArrayData *_data;
     int i = 0;
@@ -47,13 +47,13 @@ int ArrayList::Insert(ArrayData *data, int index, int size)
     
     // Coping the data before index
     while (i < index) {
-        memcpy(((ArrayData*)_data) + (i * size), ((ArrayData*)(this->front)) + (i * size), size);
+        memcpy(((ArrayData*)_data) + (i * sizeof(ArrayData)), ((ArrayData*)(this->front)) + (i * sizeof(ArrayData)), sizeof(ArrayData));
         i++;
     }
     
     // Copying the data after index
     while (i < this->current) {
-        memcpy(((ArrayData*)_data) + ((i+1) * size), ((ArrayData*)(this->front)) + (i * size), size);
+        memcpy(((ArrayData*)_data) + ((i+1) * sizeof(ArrayData)), ((ArrayData*)(this->front)) + (i * sizeof(ArrayData)), sizeof(ArrayData));
         i++;
     }
     
@@ -62,13 +62,13 @@ int ArrayList::Insert(ArrayData *data, int index, int size)
     }
     this->front = _data;
     this->capacity++;;
-    memcpy(((ArrayData*)(this->front)) + (index * size), data, size);
+    memcpy(((ArrayData*)(this->front)) + (index * sizeof(ArrayData)), data, sizeof(ArrayData));
     this->current++;
     
     return index;
 }
 
-int ArrayList::AppendFromFront(ArrayData *data, int size)
+int ArrayList::AppendFromFront(ArrayData *data)
 {
     int index = 0;
     int i = 0;
@@ -79,7 +79,7 @@ int ArrayList::AppendFromFront(ArrayData *data, int size)
     
     // Copying the data after index
     while (i < this->current) {
-        memcpy(((ArrayData*)_data) + ((i+1) * size), ((ArrayData*)(this->front)) + (i * size), size);
+        memcpy(((ArrayData*)_data) + ((i+1) * sizeof(ArrayData)), ((ArrayData*)(this->front)) + (i * sizeof(ArrayData)), sizeof(ArrayData));
         i++;
     }
     
@@ -89,13 +89,13 @@ int ArrayList::AppendFromFront(ArrayData *data, int size)
     
     this->front = _data;
     this->capacity++;;
-    memcpy(((ArrayData*)(this->front)) + (index * size), data, size);
+    memcpy(((ArrayData*)(this->front)) + (index * sizeof(ArrayData)), data, sizeof(ArrayData));
     this->current++;
     
     return index;
 }
 
-int ArrayList::AppendFromRear(ArrayData *data, int size)
+int ArrayList::AppendFromRear(ArrayData *data)
 {
     int index = 0;
     int i = 0;
@@ -106,7 +106,7 @@ int ArrayList::AppendFromRear(ArrayData *data, int size)
     
     // Copying the data after index
     while (i < this->current) {
-        memcpy(((ArrayData*)_data) + (i * size), ((ArrayData*)(this->front)) + (i * size), size);
+        memcpy(((ArrayData*)_data) + (i * sizeof(ArrayData)), ((ArrayData*)(this->front)) + (i * sizeof(ArrayData)), sizeof(ArrayData));
         i++;
     }
     
@@ -116,32 +116,32 @@ int ArrayList::AppendFromRear(ArrayData *data, int size)
     
     this->front = _data;
     this->capacity++;;
-    memcpy(((ArrayData*)(this->front)) + (index * size), data, size);
+    memcpy(((ArrayData*)(this->front)) + (index * sizeof(ArrayData)), data, sizeof(ArrayData));
     this->current++;
     index = this->capacity-1; // point out last index in the array
     
     return index;
 }
 
-int ArrayList::Delete(int index, int size)
+int ArrayList::Delete(int index)
 {
     ArrayData *_data = NULL;
     int i = 0;
     int j = 0;
     
     if (this->capacity > 1) {
-        _data = (ArrayData*) calloc(this->capacity-1, size);
+        _data = (ArrayData*) calloc(this->capacity-1, sizeof(ArrayData));
     }
     
     while (i < index) {
-        memcpy(((ArrayData*)_data) + (j*size), ((ArrayData*)(this->front)) + (i*size), size);
+        memcpy(((ArrayData*)_data) + (j*sizeof(ArrayData)), ((ArrayData*)(this->front)) + (i*sizeof(ArrayData)), sizeof(ArrayData));
         j++;
         i++;
     }
     
     i = index + 1;
     while (i < this->current) {
-        memcpy(((ArrayData*)_data) + (j*size), ((ArrayData*)(this->front)) + (i*size), size);
+        memcpy(((ArrayData*)_data) + (j*sizeof(ArrayData)), ((ArrayData*)(this->front)) + (i*sizeof(ArrayData)), sizeof(ArrayData));
         j++;
         i++;
     }
@@ -156,16 +156,17 @@ int ArrayList::Delete(int index, int size)
     
     this->current--;
     this->capacity--;
-    index = this->current;
+    index = -1;
     
     return index;
 }
 
-int ArrayList::DeleteFromFront(int size)
+int ArrayList::DeleteFromFront(void)
 {
     ArrayData *_data = NULL;
     int i = 0;
     int index = 0;
+    int size = sizeof(ArrayData);
     
     if (this->capacity > 1) {
         _data = (ArrayData*) calloc(this->capacity-1, size);
@@ -186,15 +187,17 @@ int ArrayList::DeleteFromFront(int size)
     
     this->current--;
     this->capacity--;
+    index = -1;
     
     return index;
 }
 
-int ArrayList::DeleteFromRear(int size)
+int ArrayList::DeleteFromRear(void)
 {
     ArrayData *_data = NULL;
     int i = 0;
     int index = 0;
+    int size = sizeof(ArrayData);
     
     if (this->capacity > 1) {
         _data = (ArrayData*) calloc(this->capacity-1, size);
@@ -215,7 +218,7 @@ int ArrayList::DeleteFromRear(int size)
     
     this->current--;
     this->capacity--;
-    index = this->capacity - 1;
+    index = -1;
     return index;
 }
 
@@ -228,8 +231,9 @@ void ArrayList::Clear(void)
     this->current = 0;
 }
 
-int ArrayList::Modify(int index, ArrayData *data, int size)
+int ArrayList::Modify(int index, ArrayData *data)
 {
+    int size = sizeof(ArrayData);
     memcpy(((ArrayData*)(this->front)) + (index*size), (ArrayData*)data, size);
     return index;
 }

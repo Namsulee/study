@@ -16,18 +16,18 @@ typedef struct _ArrayData {
 class ArrayList
 {
 public:
-    ArrayList(int listSize, int size);
+    ArrayList(int listSize);
     ArrayList(const ArrayList& source);
     ~ArrayList();
-    int Store(ArrayData *data, int index, int size);
-    int Insert(ArrayData *data, int index, int size);
-    int AppendFromFront(ArrayData *data, int size);
-    int AppendFromRear(ArrayData *data, int size);
-    int Delete(int index, int size);
-    int DeleteFromFront(int size);
-    int DeleteFromRear(int size);
+    int Store(int index, ArrayData *data);
+    int Insert(int index, ArrayData *data);
+    int AppendFromFront(ArrayData *data);
+    int AppendFromRear(ArrayData *data);
+    int Delete(int index);
+    int DeleteFromFront(void);
+    int DeleteFromRear(void);
     void Clear();
-    int Modify(int index, ArrayData *data, int size);
+    int Modify(int index, ArrayData *data);
     int LinearSearchUniqueArray(ArrayData *data);
     int LinearSearchDuplicateArray(ArrayData *data, int *count);
     
