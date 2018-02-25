@@ -242,25 +242,22 @@ int Modify(ArrayList *this, int index, void *object, size_t size)
     memcpy(((char*)(this->front)) + (index * size), object, size);
     return index;
 }
-int LinearSearchUnique(ArrayList *this, void *key, size_t size)
+int LinearSearchUnique(ArrayList *this, void *key, size_t size, int (*compare)(void*, void*))
 {
     int i = 1;
     int index = 0;
-    Data *data;
-    
-    while (i < this->length) {
-        data = this->front + (i * size);
-        if (data->value == ((Data*)key)->value) {
-            index = i;
-            break;
-        }
+
+    while (i < this->length && compare(((char*)(this->front)) + (i * size), key) != 0) {
         i++;
+    }
+    if (i < this->length) {
+        index = i;
     }
     
     return index;
 }
 
-void LinearSearchDuplicate(ArrayList *this, void *key, int *count, int *(*indexes), size_t size)
+void LinearSearchDuplicate(ArrayList *this, void *key, int *count, int *(*indexes), size_t size, int (*compare)(void*, void*))
 {
     int i = 1;
     int k = 0;
@@ -289,7 +286,7 @@ void LinearSearchDuplicate(ArrayList *this, void *key, int *count, int *(*indexe
     }
 }
 
-int BinarySearchUnique(ArrayList *this, void *key, size_t size)
+int BinarySearchUnique(ArrayList *this, void *key, size_t size, int (*compare)(void*, void*))
 {
     int index = 0;
     int high;
@@ -314,7 +311,7 @@ int BinarySearchUnique(ArrayList *this, void *key, size_t size)
     
     return index;
 }
-void BinarySearchDuplicate(ArrayList *this, void *key, int *count, int *(*indexes), size_t size)
+void BinarySearchDuplicate(ArrayList *this, void *key, int *count, int *(*indexes), size_t size, int (*compare)(void*, void*))
 {
     int high;
     int low = 1;
@@ -361,23 +358,23 @@ void BinarySearchDuplicate(ArrayList *this, void *key, int *count, int *(*indexe
         *indexes[j++] = i;
     }
 }
-void SelectSort(ArrayList *this);
+void SelectSort(ArrayList *this, int (*compare)(void*, void*));
 {
     
 }
-void BubbleSort(ArrayList *this)
+void BubbleSort(ArrayList *this, int (*compare)(void*, void*))
 {
     
 }
-void InsertionSort(ArrayList *this)
+void InsertionSort(ArrayList *this, int (*compare)(void*, void*))
 {
     
 }
-void MergeSort(ArrayList *one, ArrayList *other)
+void MergeSort(ArrayList *one, ArrayList *other, int (*compare)(void*, void*))
 {
     
 }
-void GetAt(ArrayList *this, int index, void *object, size_t size)
+void GetAt(ArrayList *this, int index, void *object, size_t size, int (*compare)(void*, void*))
 {
     object = calloc(1, size);
     memcpy(object, this->front + (index * size), size);
