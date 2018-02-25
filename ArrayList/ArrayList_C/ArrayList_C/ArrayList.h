@@ -36,7 +36,13 @@ typedef struct _arrayList {
     int (*Modify)(ArrayList *this, int index, void *object, size_t size);
     int (*LinearSearchUnique)(ArrayList *this, void *key, size_t size);
     void (*LinearSearchDuplicate)(ArrayList *this, void *key, int *count, int *(*indexes), size_t size);
-    
+    int (*BinarySearchUnique)(ArrayList *this, void *object, size_t size);
+    void (*BinarySearchDuplicate)(ArrayList *this, void *key, int *count, int *(*indexes), size_t size);
+    void (*SelectSort)(ArrayList *this);
+    void (*BubbleSort)(ArrayList *this);
+    void (*InsertionSort)(ArrayList *this);
+    void (*MergeSort)(ArrayList *one, ArrayList *other);
+    void (*GetAt)(ArrayList *this, int index, void *object, size_t size);
 } ArrayList;
 
 void Create(int capacity, size_t size, ArrayList *this);
@@ -54,5 +60,12 @@ void Clear(ArrayList *this);
 int Modify(ArrayList *this, int index, void *object, size_t size);
 int LinearSearchUnique(ArrayList *this, void *key, size_t size);
 void LinearSearchDuplicate(ArrayList * this, void *key, int *count, int *(*indexes), size_t size);
+int BinarySearchUnique(ArrayList *this, void *key, size_t size);
+void BinarySearchDuplicate(ArrayList *this, void *key, int *count, int *(*indexes), size_t size);
+void SelectSort(ArrayList *this);
+void BubbleSort(ArrayList *this);
+void InsertionSort(ArrayList *this);
+void MergeSort(ArrayList *one, ArrayList *other);
+void GetAt(ArrayList *this, int index, void *object, size_t size);
 
 #endif /* ArrayList_h */

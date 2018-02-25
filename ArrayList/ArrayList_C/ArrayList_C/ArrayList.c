@@ -57,14 +57,14 @@ int Insert(ArrayList *this, int index, void *object, size_t size)
     }
     
     while (i < index) {
-        memcpy(temp + (j*size), this->front + (i*size), size);
+        memcpy(temp + (j*size), this->front + (i * size), size);
         j++;
         i++;
     }
     
     i = index + 1;
     while (i < this->length) {
-        memcpy(temp + (j*size), this->front + (i*size), size);
+        memcpy(temp + (j*size), this->front + (i * size), size);
     }
     
     if (this->front != NULL)
@@ -92,7 +92,7 @@ int AppendFromFront(ArrayList *this, void *object, size_t size)
     }
     
     while (i < this->length) {
-        memcpy(temp + (i*size)+1, this->front + (i*size), size);
+        memcpy(temp + (i*size)+1, this->front + (i * size), size);
         i++;
     }
    
@@ -121,7 +121,7 @@ int AppendFromRear(ArrayList *this, void *object, size_t size)
     }
     
     while (i < this->length) {
-        memcpy(temp + (i*size), this->front + (i*size), size);
+        memcpy(temp + (i*size), this->front + (i * size), size);
         i++;
     }
     
@@ -152,14 +152,14 @@ int Delete(ArrayList *this, int index, size_t size)
     }
     
     while (i < index) {
-        memcpy(temp + (j*size), this->front + (i*size), size);
+        memcpy(temp + (j*size), this->front + (i * size), size);
         j++;
         i++;
     }
     
     i = index + 1;
     while (i < this->length) {
-        memcpy(temp + (j*size), this->front + (i*size), size);
+        memcpy(temp + (j*size), this->front + (i * size), size);
         j++;
         i++;
     }
@@ -187,7 +187,7 @@ int DeleteFromFront(ArrayList *this, size_t size)
     }
     
     while (i < this->length) {
-        memcpy(temp + (j*size), this->front + (i*size), size);
+        memcpy(temp + (j*size), this->front + (i * size), size);
         j++;
         i++;
     }
@@ -213,7 +213,7 @@ int DeleteFromRear(ArrayList *this, size_t size)
     }
     
     while (i < this->length-1) {
-        memcpy(temp + (i*size), this->front + (i*size), size);
+        memcpy(temp + (i*size), this->front + (i * size), size);
         i++;
     }
     
@@ -239,15 +239,146 @@ void Clear(ArrayList *this)
 }
 int Modify(ArrayList *this, int index, void *object, size_t size)
 {
-    memcpy(((char*)(this->front)) + (index*size), object, size);
+    memcpy(((char*)(this->front)) + (index * size), object, size);
     return index;
 }
 int LinearSearchUnique(ArrayList *this, void *key, size_t size)
 {
-    return 0;
+    int i = 1;
+    int index = 0;
+    Data *data;
+    
+    while (i < this->length) {
+        data = this->front + (i * size);
+        if (data->value == ((Data*)key)->value) {
+            index = i;
+            break;
+        }
+        i++;
+    }
+    
+    return index;
 }
 
 void LinearSearchDuplicate(ArrayList *this, void *key, int *count, int *(*indexes), size_t size)
 {
+    int i = 1;
+    int k = 0;
+    Data *data;
     
+    
+    while (i <= this->length) {
+        data = this->front + (i * size);
+        if (data->value >= ((Data*)key)->value) {
+            *count = *count + 1;
+        }
+        i++;
+    }
+    
+    if (*count > 0) {
+       indexes = calloc(*count, sizeof(int));
+    }
+    
+    i = 0;
+    while (i < *count) {
+        data = this->front + (i * size);
+        if (data->value >= ((Data*)key)->value) {
+            *indexes[k++] = i;
+        }
+        i++;
+    }
+}
+
+int BinarySearchUnique(ArrayList *this, void *key, size_t size)
+{
+    int index = 0;
+    int high;
+    int low = 1;
+    int mid;
+    Data *org;
+    
+    high = this->capacity;
+    mid = (high + low) / 2;
+    org = (Data*)this->front;
+    while (low <= high && (org + (mid*size))->value == ((Data*)key)->value) {
+        if ((org + (mid*size))->value < ((Data*)key)->value) {
+            low = mid + 1;
+        } else {
+            high = mid - 1;
+        }
+        mid = (low + high) / 2;
+    }
+    if (low <= high) {
+        index = mid;
+    }
+    
+    return index;
+}
+void BinarySearchDuplicate(ArrayList *this, void *key, int *count, int *(*indexes), size_t size)
+{
+    int high;
+    int low = 1;
+    int mid;
+    int keyStart;
+    int keyEnd;
+    int index = 0;
+    int i = 1;
+    int j = 0;
+    Data *org;
+    
+    high = this->length;
+    mid = (high + low) / 2;
+    org = (Data*)this->front;
+    while (low < high && (org + (mid*size))->value != ((Data*)key)->value) {
+        if ((org + (mid*size))->value < ((Data*)key)->value) {
+            low = mid + 1;
+        } else {
+            high = mid - 1;
+        }
+        index = mid;
+        i = index - 1;
+    }
+    
+    while (i >= low && (org + (i*size))->value == ((Data*)key)->value) {
+        i--;
+    }
+    keyStart = i + 1;
+    i = keyStart;
+    
+    while (keyStart <= high && (org + (i*size))->value == ((Data*)key)->value) {
+        *count = *count + 1;
+        i++;
+    }
+    keyEnd = i - 1;
+    
+    if (*count > 0) {
+        indexes = calloc(*count, sizeof(int));
+    }
+    
+    i = keyStart;
+    
+    while (i <= keyEnd && (org + (i*size))->value == ((Data*)key)->value) {
+        *indexes[j++] = i;
+    }
+}
+void SelectSort(ArrayList *this);
+{
+    
+}
+void BubbleSort(ArrayList *this)
+{
+    
+}
+void InsertionSort(ArrayList *this)
+{
+    
+}
+void MergeSort(ArrayList *one, ArrayList *other)
+{
+    
+}
+void GetAt(ArrayList *this, int index, void *object, size_t size)
+{
+    object = calloc(1, size);
+    memcpy(object, this->front + (index * size), size);
 }
